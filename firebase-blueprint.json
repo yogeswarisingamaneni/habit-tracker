@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user-specific settings and gamification data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "xp": { "type": "integer", "description": "Total experience points" },
+        "level": { "type": "integer", "description": "Current user level" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "xp", "level"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "A habit tracked by the user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "frequency": { "type": "string", "enum": ["daily", "custom"] },
+        "customDays": { "type": "array", "items": { "type": "integer" }, "description": "0-6 for Sun-Sat" },
+        "color": { "type": "string" },
+        "icon": { "type": "string" },
+        "currentStreak": { "type": "integer" },
+        "longestStreak": { "type": "integer" },
+        "lastCompletedDate": { "type": "string", "format": "date" },
+        "completedDates": { "type": "array", "items": { "type": "string", "format": "date" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "frequency", "currentStreak", "longestStreak"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "users/{userId}/habits/{habitId}": {
+      "schema": "Habit",
+      "description": "Individual habit document"
+    }
+  }
+}
